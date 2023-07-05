@@ -94,6 +94,42 @@ export const mq2Detected = functions.database
         logger.info("Threshold not passed.");
       }
 
+      // Retrieve all values of child nodes under /Sensor Data/{userId}
+      const sensorDataSnapshot = await admin.database()
+        .ref(`/Sensor Data/${context.params.userId}`)
+        .once("value");
+      const sensorDataValues = sensorDataSnapshot.val();
+
+      // Retrieve all child nodes under /Registered Users/
+      const registeredUserSnapshot = await admin.database()
+        .ref("/Registered Users/")
+        .once("value");
+      const registeredUserDataValues = registeredUserSnapshot.val();
+
+      // Convert the timestamp to a human-readable
+      // date and time format (Philippine time)
+      const timestamp = Date.now();
+      const date = new Date(timestamp).toLocaleString("en-PH", {
+        timeZone: "Asia/Manila",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      });
+
+      // Write to the logs node with a reference to /Sensor Data/{userId}/
+      const logsRef = admin.database().ref("/Logs");
+      const newLogRef = logsRef.push();
+      const logData = {
+        timestamp: date,
+        userData: registeredUserDataValues,
+        sensorDataValues: sensorDataValues,
+      };
+      newLogRef.set(logData);
+
       return null;
     } catch (error) {
       logger.error("Error occurred:", error);
@@ -180,6 +216,42 @@ export const mq135Detected = functions.database
         logger.info("Threshold not passed.");
       }
 
+      // Retrieve all values of child nodes under /Sensor Data/{userId}
+      const sensorDataSnapshot = await admin.database()
+        .ref(`/Sensor Data/${context.params.userId}`)
+        .once("value");
+      const sensorDataValues = sensorDataSnapshot.val();
+
+      // Retrieve all child nodes under /Registered Users/
+      const registeredUserSnapshot = await admin.database()
+        .ref("/Registered Users/")
+        .once("value");
+      const registeredUserDataValues = registeredUserSnapshot.val();
+
+      // Convert the timestamp to a human-readable
+      // date and time format (Philippine time)
+      const timestamp = Date.now();
+      const date = new Date(timestamp).toLocaleString("en-PH", {
+        timeZone: "Asia/Manila",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      });
+
+      // Write to the logs node with a reference to /Sensor Data/{userId}/
+      const logsRef = admin.database().ref("/Logs");
+      const newLogRef = logsRef.push();
+      const logData = {
+        timestamp: date,
+        userData: registeredUserDataValues,
+        sensorDataValues: sensorDataValues,
+      };
+      newLogRef.set(logData);
+
       return null;
     } catch (error) {
       logger.error("Error occurred:", error);
@@ -248,42 +320,6 @@ export const flameDetected = functions.database
           }
         }
 
-        // Retrieve all values of child nodes under /Sensor Data/{userId}
-        const sensorDataSnapshot = await admin.database()
-          .ref(`/Sensor Data/${context.params.userId}`)
-          .once("value");
-        const sensorDataValues = sensorDataSnapshot.val();
-
-        // Retrieve all child nodes under /Registered Users/
-        const registeredUserSnapshot = await admin.database()
-          .ref("/Registered Users/")
-          .once("value");
-        const registeredUserDataValues = registeredUserSnapshot.val();
-
-        // Convert the timestamp to a human-readable
-        // date and time format (Philippine time)
-        const timestamp = Date.now();
-        const date = new Date(timestamp).toLocaleString("en-PH", {
-          timeZone: "Asia/Manila",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-          hour12: true,
-        });
-
-        // Write to the logs node with a reference to /Sensor Data/{userId}/
-        const logsRef = admin.database().ref("/Logs");
-        const newLogRef = logsRef.push();
-        const logData = {
-          timestamp: date,
-          userData: registeredUserDataValues,
-          sensorDataValues: sensorDataValues,
-        };
-        newLogRef.set(logData);
-
 
         // Update the /Sensor Data/{userId}/status path with the value "true"
         admin.database()
@@ -300,6 +336,42 @@ export const flameDetected = functions.database
       } else {
         logger.info("Threshold not passed.");
       }
+
+      // Retrieve all values of child nodes under /Sensor Data/{userId}
+      const sensorDataSnapshot = await admin.database()
+        .ref(`/Sensor Data/${context.params.userId}`)
+        .once("value");
+      const sensorDataValues = sensorDataSnapshot.val();
+
+      // Retrieve all child nodes under /Registered Users/
+      const registeredUserSnapshot = await admin.database()
+        .ref("/Registered Users/")
+        .once("value");
+      const registeredUserDataValues = registeredUserSnapshot.val();
+
+      // Convert the timestamp to a human-readable
+      // date and time format (Philippine time)
+      const timestamp = Date.now();
+      const date = new Date(timestamp).toLocaleString("en-PH", {
+        timeZone: "Asia/Manila",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      });
+
+      // Write to the logs node with a reference to /Sensor Data/{userId}/
+      const logsRef = admin.database().ref("/Logs");
+      const newLogRef = logsRef.push();
+      const logData = {
+        timestamp: date,
+        userData: registeredUserDataValues,
+        sensorDataValues: sensorDataValues,
+      };
+      newLogRef.set(logData);
 
       return null;
     } catch (error) {
