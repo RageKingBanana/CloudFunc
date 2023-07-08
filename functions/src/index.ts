@@ -64,6 +64,7 @@ export const mq2Detected = functions.database
                     click_action: "OPEN_ACTIVITY",
                     priority: "high",
                     color: "#FF0000",
+                    sound: "https://firebasestorage.googleapis.com/v0/b/pyronnoia-280b1.appspot.com/o/FireAlarm.mp3?alt=media&token=5b96bda4-6de2-478c-963c-9bca8501380f",
                   },
                 })
               );
@@ -185,6 +186,7 @@ export const mq135Detected = functions.database
                     body: `MQ135 value is ${sensorData}, 
                     which is above the threshold of ${threshold}`,
                     // imageUrl: "https://firebasestorage.googleapis.com/v0/b/pyronnoia-280b1.appspot.com/o/pyrologo.png?alt=media&token=b614f0c7-946f-448d-8949-fb321b9ded38",
+                    sound: "alarm",
                     click_action: "OPEN_ACTIVITY",
                     priority: "high",
                     color: "#FF0000",
@@ -313,6 +315,7 @@ export const flameDetected = functions.database
                     click_action: "OPEN_ACTIVITY",
                     priority: "high",
                     color: "#FF0000",
+                    sound: "alarm.mp3",
                   },
                 })
               );
@@ -436,6 +439,7 @@ export const Emq2Detected = functions.database
                     click_action: "OPEN_ACTIVITY",
                     priority: "high",
                     color: "#FF0000",
+
                   },
                 })
               );
