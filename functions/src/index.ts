@@ -60,7 +60,7 @@ export const mq2Detected = functions.database
                     title: "Threshold Passed",
                     body: `MQ2 value is ${sensorData}, 
                     which is above the threshold of ${threshold}`,
-                    // imageUrl: "https://firebasestorage.googleapis.com/v0/b/pyronnoia-280b1.appspot.com/o/pyrologo.png?alt=media&token=b614f0c7-946f-448d-8949-fb321b9ded38",
+                    // imageUrl: "https://firebasestorage.googleapis.com/v0/b/pyronnoia-280b1.appspot.com/o/don.jpg?alt=media&token=be0cb4d8-6bcb-4e7e-8180-e7ebe5865a99",
                     click_action: "OPEN_ACTIVITY",
                     priority: "high",
                     color: "#FF0000",
@@ -91,7 +91,6 @@ export const mq2Detected = functions.database
             ${context.params.userId}:
             ${error}`);
           });
-
         // Retrieve all values of child nodes under /Sensor Data/{userId}
         const sensorDataSnapshot = await admin.database()
           .ref(`/Sensor Data/${context.params.userId}`)
@@ -104,8 +103,26 @@ export const mq2Detected = functions.database
           .once("value");
         const registeredUserDataValues = registeredUserSnapshot.val();
 
-        // Convert the timestamp to a human-readable
-        // date and time format (Philippine time)
+        // Get the full names and mobile numbers of each user in userData
+        let userFullNames = "";
+        let userMobileNumbers = "";
+        for (const userId in registeredUserDataValues) {
+          if (Object.prototype.hasOwnProperty.
+            call(registeredUserDataValues, userId)) {
+            const userData = registeredUserDataValues[userId];
+            const fullName = userData.fullName;
+            const mobileNumber = userData.mobile;
+            userFullNames += `${fullName}, `;
+            userMobileNumbers += `${mobileNumber}, `;
+          }
+        }
+
+        // Remove the trailing comma and space
+        userFullNames = userFullNames.slice(0, -2);
+        userMobileNumbers = userMobileNumbers.slice(0, -2);
+
+        // Convert the timestamp to a human-readable date
+        // and time format (Philippine time)
         const timestamp = Date.now();
         const date = new Date(timestamp).toLocaleString("en-PH", {
           timeZone: "Asia/Manila",
@@ -118,16 +135,25 @@ export const mq2Detected = functions.database
           hour12: true,
         });
 
+        // Get the location from sensorDataValues
+        const location = sensorDataValues &&
+        sensorDataValues.loc ? sensorDataValues.loc : "";
+
         // Write to the logs node with a reference to /Sensor Data/{userId}/
         const logsRef = admin.database().ref("/Logs");
         const newLogRef = logsRef.push();
         const logData = {
           timestamp: date,
+          userFullNames: userFullNames,
+          userMobileNumbers: userMobileNumbers,
           userData: registeredUserDataValues,
           sensorDataValues: sensorDataValues,
+          location: location,
           isread: "false",
         };
+
         newLogRef.set(logData);
+        logger.info("SET LOG");
       } else {
         logger.info("Threshold not passed.");
       }
@@ -228,8 +254,26 @@ export const mq135Detected = functions.database
           .once("value");
         const registeredUserDataValues = registeredUserSnapshot.val();
 
-        // Convert the timestamp to a human-readable
-        // date and time format (Philippine time)
+        // Get the full names and mobile numbers of each user in userData
+        let userFullNames = "";
+        let userMobileNumbers = "";
+        for (const userId in registeredUserDataValues) {
+          if (Object.prototype.hasOwnProperty.
+            call(registeredUserDataValues, userId)) {
+            const userData = registeredUserDataValues[userId];
+            const fullName = userData.fullName;
+            const mobileNumber = userData.mobile;
+            userFullNames += `${fullName}, `;
+            userMobileNumbers += `${mobileNumber}, `;
+          }
+        }
+
+        // Remove the trailing comma and space
+        userFullNames = userFullNames.slice(0, -2);
+        userMobileNumbers = userMobileNumbers.slice(0, -2);
+
+        // Convert the timestamp to a human-readable date
+        // and time format (Philippine time)
         const timestamp = Date.now();
         const date = new Date(timestamp).toLocaleString("en-PH", {
           timeZone: "Asia/Manila",
@@ -242,16 +286,25 @@ export const mq135Detected = functions.database
           hour12: true,
         });
 
+        // Get the location from sensorDataValues
+        const location = sensorDataValues &&
+            sensorDataValues.loc ? sensorDataValues.loc : "";
+
         // Write to the logs node with a reference to /Sensor Data/{userId}/
         const logsRef = admin.database().ref("/Logs");
         const newLogRef = logsRef.push();
         const logData = {
           timestamp: date,
+          userFullNames: userFullNames,
+          userMobileNumbers: userMobileNumbers,
           userData: registeredUserDataValues,
           sensorDataValues: sensorDataValues,
+          location: location,
           isread: "false",
         };
+
         newLogRef.set(logData);
+        logger.info("SET LOG");
       } else {
         logger.info("Threshold not passed.");
       }
@@ -351,8 +404,26 @@ export const flameDetected = functions.database
           .once("value");
         const registeredUserDataValues = registeredUserSnapshot.val();
 
-        // Convert the timestamp to a human-readable
-        // date and time format (Philippine time)
+        // Get the full names and mobile numbers of each user in userData
+        let userFullNames = "";
+        let userMobileNumbers = "";
+        for (const userId in registeredUserDataValues) {
+          if (Object.prototype.hasOwnProperty.
+            call(registeredUserDataValues, userId)) {
+            const userData = registeredUserDataValues[userId];
+            const fullName = userData.fullName;
+            const mobileNumber = userData.mobile;
+            userFullNames += `${fullName}, `;
+            userMobileNumbers += `${mobileNumber}, `;
+          }
+        }
+
+        // Remove the trailing comma and space
+        userFullNames = userFullNames.slice(0, -2);
+        userMobileNumbers = userMobileNumbers.slice(0, -2);
+
+        // Convert the timestamp to a human-readable date
+        // and time format (Philippine time)
         const timestamp = Date.now();
         const date = new Date(timestamp).toLocaleString("en-PH", {
           timeZone: "Asia/Manila",
@@ -365,16 +436,25 @@ export const flameDetected = functions.database
           hour12: true,
         });
 
+        // Get the location from sensorDataValues
+        const location = sensorDataValues &&
+              sensorDataValues.loc ? sensorDataValues.loc : "";
+
         // Write to the logs node with a reference to /Sensor Data/{userId}/
         const logsRef = admin.database().ref("/Logs");
         const newLogRef = logsRef.push();
         const logData = {
           timestamp: date,
+          userFullNames: userFullNames,
+          userMobileNumbers: userMobileNumbers,
           userData: registeredUserDataValues,
           sensorDataValues: sensorDataValues,
+          location: location,
           isread: "false",
         };
+
         newLogRef.set(logData);
+        logger.info("SET LOG");
       } else {
         logger.info("Threshold not passed.");
       }
